@@ -14,15 +14,15 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
   @Deprecated public java.lang.CharSequence subject;
   @Deprecated public java.lang.CharSequence body;
   @Deprecated public java.lang.CharSequence date;
-  @Deprecated public from from;
+  @Deprecated public From from;
   /**  */
-  @Deprecated public java.util.List<to> tos;
+  @Deprecated public java.util.List<To> tos;
   /**  */
-  @Deprecated public java.util.List<cc> ccs;
+  @Deprecated public java.util.List<Cc> ccs;
   /**  */
-  @Deprecated public java.util.List<bcc> bccs;
+  @Deprecated public java.util.List<Bcc> bccs;
   /**  */
-  @Deprecated public java.util.List<reply_to> reply_tos;
+  @Deprecated public java.util.List<Reply_to> reply_tos;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -34,7 +34,7 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
   /**
    * All-args constructor.
    */
-  public Email(java.lang.CharSequence message_id, java.lang.CharSequence thread_id, java.lang.CharSequence in_reply_to, java.lang.CharSequence subject, java.lang.CharSequence body, java.lang.CharSequence date, from from, java.util.List<to> tos, java.util.List<cc> ccs, java.util.List<bcc> bccs, java.util.List<reply_to> reply_tos) {
+  public Email(java.lang.CharSequence message_id, java.lang.CharSequence thread_id, java.lang.CharSequence in_reply_to, java.lang.CharSequence subject, java.lang.CharSequence body, java.lang.CharSequence date, From from, java.util.List<To> tos, java.util.List<Cc> ccs, java.util.List<Bcc> bccs, java.util.List<Reply_to> reply_tos) {
     this.message_id = message_id;
     this.thread_id = thread_id;
     this.in_reply_to = in_reply_to;
@@ -76,11 +76,11 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     case 3: subject = (java.lang.CharSequence)value$; break;
     case 4: body = (java.lang.CharSequence)value$; break;
     case 5: date = (java.lang.CharSequence)value$; break;
-    case 6: from = (from)value$; break;
-    case 7: tos = (java.util.List<to>)value$; break;
-    case 8: ccs = (java.util.List<cc>)value$; break;
-    case 9: bccs = (java.util.List<bcc>)value$; break;
-    case 10: reply_tos = (java.util.List<reply_to>)value$; break;
+    case 6: from = (From)value$; break;
+    case 7: tos = (java.util.List<To>)value$; break;
+    case 8: ccs = (java.util.List<Cc>)value$; break;
+    case 9: bccs = (java.util.List<Bcc>)value$; break;
+    case 10: reply_tos = (java.util.List<Reply_to>)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -178,7 +178,7 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
   /**
    * Gets the value of the 'from' field.
    */
-  public from getFrom() {
+  public From getFrom() {
     return from;
   }
 
@@ -186,14 +186,14 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'from' field.
    * @param value the value to set.
    */
-  public void setFrom(from value) {
+  public void setFrom(From value) {
     this.from = value;
   }
 
   /**
    * Gets the value of the 'tos' field.
    *    */
-  public java.util.List<to> getTos() {
+  public java.util.List<To> getTos() {
     return tos;
   }
 
@@ -201,14 +201,14 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'tos' field.
    *    * @param value the value to set.
    */
-  public void setTos(java.util.List<to> value) {
+  public void setTos(java.util.List<To> value) {
     this.tos = value;
   }
 
   /**
    * Gets the value of the 'ccs' field.
    *    */
-  public java.util.List<cc> getCcs() {
+  public java.util.List<Cc> getCcs() {
     return ccs;
   }
 
@@ -216,14 +216,14 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'ccs' field.
    *    * @param value the value to set.
    */
-  public void setCcs(java.util.List<cc> value) {
+  public void setCcs(java.util.List<Cc> value) {
     this.ccs = value;
   }
 
   /**
    * Gets the value of the 'bccs' field.
    *    */
-  public java.util.List<bcc> getBccs() {
+  public java.util.List<Bcc> getBccs() {
     return bccs;
   }
 
@@ -231,14 +231,14 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'bccs' field.
    *    * @param value the value to set.
    */
-  public void setBccs(java.util.List<bcc> value) {
+  public void setBccs(java.util.List<Bcc> value) {
     this.bccs = value;
   }
 
   /**
    * Gets the value of the 'reply_tos' field.
    *    */
-  public java.util.List<reply_to> getReplyTos() {
+  public java.util.List<Reply_to> getReplyTos() {
     return reply_tos;
   }
 
@@ -246,7 +246,7 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'reply_tos' field.
    *    * @param value the value to set.
    */
-  public void setReplyTos(java.util.List<reply_to> value) {
+  public void setReplyTos(java.util.List<Reply_to> value) {
     this.reply_tos = value;
   }
 
@@ -277,11 +277,11 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     private java.lang.CharSequence subject;
     private java.lang.CharSequence body;
     private java.lang.CharSequence date;
-    private from from;
-    private java.util.List<to> tos;
-    private java.util.List<cc> ccs;
-    private java.util.List<bcc> bccs;
-    private java.util.List<reply_to> reply_tos;
+    private From from;
+    private java.util.List<To> tos;
+    private java.util.List<Cc> ccs;
+    private java.util.List<Bcc> bccs;
+    private java.util.List<Reply_to> reply_tos;
 
     /** Creates a new Builder */
     private Builder() {
@@ -537,12 +537,12 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /** Gets the value of the 'from' field */
-    public from getFrom() {
+    public From getFrom() {
       return from;
     }
     
     /** Sets the value of the 'from' field */
-    public Email.Builder setFrom(from value) {
+    public Email.Builder setFrom(From value) {
       validate(fields()[6], value);
       this.from = value;
       fieldSetFlags()[6] = true;
@@ -562,12 +562,12 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /** Gets the value of the 'tos' field */
-    public java.util.List<to> getTos() {
+    public java.util.List<To> getTos() {
       return tos;
     }
     
     /** Sets the value of the 'tos' field */
-    public Email.Builder setTos(java.util.List<to> value) {
+    public Email.Builder setTos(java.util.List<To> value) {
       validate(fields()[7], value);
       this.tos = value;
       fieldSetFlags()[7] = true;
@@ -587,12 +587,12 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /** Gets the value of the 'ccs' field */
-    public java.util.List<cc> getCcs() {
+    public java.util.List<Cc> getCcs() {
       return ccs;
     }
     
     /** Sets the value of the 'ccs' field */
-    public Email.Builder setCcs(java.util.List<cc> value) {
+    public Email.Builder setCcs(java.util.List<Cc> value) {
       validate(fields()[8], value);
       this.ccs = value;
       fieldSetFlags()[8] = true;
@@ -612,12 +612,12 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /** Gets the value of the 'bccs' field */
-    public java.util.List<bcc> getBccs() {
+    public java.util.List<Bcc> getBccs() {
       return bccs;
     }
     
     /** Sets the value of the 'bccs' field */
-    public Email.Builder setBccs(java.util.List<bcc> value) {
+    public Email.Builder setBccs(java.util.List<Bcc> value) {
       validate(fields()[9], value);
       this.bccs = value;
       fieldSetFlags()[9] = true;
@@ -637,12 +637,12 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /** Gets the value of the 'reply_tos' field */
-    public java.util.List<reply_to> getReplyTos() {
+    public java.util.List<Reply_to> getReplyTos() {
       return reply_tos;
     }
     
     /** Sets the value of the 'reply_tos' field */
-    public Email.Builder setReplyTos(java.util.List<reply_to> value) {
+    public Email.Builder setReplyTos(java.util.List<Reply_to> value) {
       validate(fields()[10], value);
       this.reply_tos = value;
       fieldSetFlags()[10] = true;
@@ -670,11 +670,11 @@ public class Email extends org.apache.avro.specific.SpecificRecordBase implement
         record.subject = fieldSetFlags()[3] ? this.subject : (java.lang.CharSequence) defaultValue(fields()[3]);
         record.body = fieldSetFlags()[4] ? this.body : (java.lang.CharSequence) defaultValue(fields()[4]);
         record.date = fieldSetFlags()[5] ? this.date : (java.lang.CharSequence) defaultValue(fields()[5]);
-        record.from = fieldSetFlags()[6] ? this.from : (from) defaultValue(fields()[6]);
-        record.tos = fieldSetFlags()[7] ? this.tos : (java.util.List<to>) defaultValue(fields()[7]);
-        record.ccs = fieldSetFlags()[8] ? this.ccs : (java.util.List<cc>) defaultValue(fields()[8]);
-        record.bccs = fieldSetFlags()[9] ? this.bccs : (java.util.List<bcc>) defaultValue(fields()[9]);
-        record.reply_tos = fieldSetFlags()[10] ? this.reply_tos : (java.util.List<reply_to>) defaultValue(fields()[10]);
+        record.from = fieldSetFlags()[6] ? this.from : (From) defaultValue(fields()[6]);
+        record.tos = fieldSetFlags()[7] ? this.tos : (java.util.List<To>) defaultValue(fields()[7]);
+        record.ccs = fieldSetFlags()[8] ? this.ccs : (java.util.List<Cc>) defaultValue(fields()[8]);
+        record.bccs = fieldSetFlags()[9] ? this.bccs : (java.util.List<Bcc>) defaultValue(fields()[9]);
+        record.reply_tos = fieldSetFlags()[10] ? this.reply_tos : (java.util.List<Reply_to>) defaultValue(fields()[10]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

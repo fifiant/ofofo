@@ -7,8 +7,8 @@ package analytic.ofofo.net.apis.gmail.model;
  */
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class cc extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"cc\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
+public class From extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"from\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   /**  */
   @Deprecated public java.lang.CharSequence real_name;
@@ -20,12 +20,12 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>. 
    */
-  public cc() {}
+  public From() {}
 
   /**
    * All-args constructor.
    */
-  public cc(java.lang.CharSequence real_name, java.lang.CharSequence address) {
+  public From(java.lang.CharSequence real_name, java.lang.CharSequence address) {
     this.real_name = real_name;
     this.address = address;
   }
@@ -79,37 +79,37 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
     this.address = value;
   }
 
-  /** Creates a new cc RecordBuilder */
-  public static cc.Builder newBuilder() {
-    return new cc.Builder();
+  /** Creates a new from RecordBuilder */
+  public static From.Builder newBuilder() {
+    return new From.Builder();
   }
   
-  /** Creates a new cc RecordBuilder by copying an existing Builder */
-  public static cc.Builder newBuilder(cc.Builder other) {
-    return new cc.Builder(other);
+  /** Creates a new from RecordBuilder by copying an existing Builder */
+  public static From.Builder newBuilder(From.Builder other) {
+    return new From.Builder(other);
   }
   
-  /** Creates a new cc RecordBuilder by copying an existing cc instance */
-  public static cc.Builder newBuilder(cc other) {
-    return new cc.Builder(other);
+  /** Creates a new from RecordBuilder by copying an existing from instance */
+  public static From.Builder newBuilder(From other) {
+    return new From.Builder(other);
   }
   
   /**
-   * RecordBuilder for cc instances.
+   * RecordBuilder for from instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<cc>
-    implements org.apache.avro.data.RecordBuilder<cc> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<From>
+    implements org.apache.avro.data.RecordBuilder<From> {
 
     private java.lang.CharSequence real_name;
     private java.lang.CharSequence address;
 
     /** Creates a new Builder */
     private Builder() {
-      super(cc.SCHEMA$);
+      super(From.SCHEMA$);
     }
     
     /** Creates a Builder by copying an existing Builder */
-    private Builder(cc.Builder other) {
+    private Builder(From.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
@@ -121,9 +121,9 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
       }
     }
     
-    /** Creates a Builder by copying an existing cc instance */
-    private Builder(cc other) {
-            super(cc.SCHEMA$);
+    /** Creates a Builder by copying an existing from instance */
+    private Builder(From other) {
+            super(From.SCHEMA$);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
         fieldSetFlags()[0] = true;
@@ -140,7 +140,7 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Sets the value of the 'real_name' field */
-    public cc.Builder setRealName(java.lang.CharSequence value) {
+    public From.Builder setRealName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.real_name = value;
       fieldSetFlags()[0] = true;
@@ -153,7 +153,7 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Clears the value of the 'real_name' field */
-    public cc.Builder clearRealName() {
+    public From.Builder clearRealName() {
       real_name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -165,7 +165,7 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Sets the value of the 'address' field */
-    public cc.Builder setAddress(java.lang.CharSequence value) {
+    public From.Builder setAddress(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.address = value;
       fieldSetFlags()[1] = true;
@@ -178,15 +178,15 @@ public class cc extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Clears the value of the 'address' field */
-    public cc.Builder clearAddress() {
+    public From.Builder clearAddress() {
       address = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
-    public cc build() {
+    public From build() {
       try {
-        cc record = new cc();
+        From record = new From();
         record.real_name = fieldSetFlags()[0] ? this.real_name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.address = fieldSetFlags()[1] ? this.address : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;

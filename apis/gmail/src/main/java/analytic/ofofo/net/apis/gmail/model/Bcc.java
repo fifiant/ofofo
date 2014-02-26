@@ -7,8 +7,8 @@ package analytic.ofofo.net.apis.gmail.model;
  */
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class to extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"to\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
+public class Bcc extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"bcc\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   /**  */
   @Deprecated public java.lang.CharSequence real_name;
@@ -20,12 +20,12 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>. 
    */
-  public to() {}
+  public Bcc() {}
 
   /**
    * All-args constructor.
    */
-  public to(java.lang.CharSequence real_name, java.lang.CharSequence address) {
+  public Bcc(java.lang.CharSequence real_name, java.lang.CharSequence address) {
     this.real_name = real_name;
     this.address = address;
   }
@@ -79,37 +79,37 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
     this.address = value;
   }
 
-  /** Creates a new to RecordBuilder */
-  public static to.Builder newBuilder() {
-    return new to.Builder();
+  /** Creates a new bcc RecordBuilder */
+  public static Bcc.Builder newBuilder() {
+    return new Bcc.Builder();
   }
   
-  /** Creates a new to RecordBuilder by copying an existing Builder */
-  public static to.Builder newBuilder(to.Builder other) {
-    return new to.Builder(other);
+  /** Creates a new bcc RecordBuilder by copying an existing Builder */
+  public static Bcc.Builder newBuilder(Bcc.Builder other) {
+    return new Bcc.Builder(other);
   }
   
-  /** Creates a new to RecordBuilder by copying an existing to instance */
-  public static to.Builder newBuilder(to other) {
-    return new to.Builder(other);
+  /** Creates a new bcc RecordBuilder by copying an existing bcc instance */
+  public static Bcc.Builder newBuilder(Bcc other) {
+    return new Bcc.Builder(other);
   }
   
   /**
-   * RecordBuilder for to instances.
+   * RecordBuilder for bcc instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<to>
-    implements org.apache.avro.data.RecordBuilder<to> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Bcc>
+    implements org.apache.avro.data.RecordBuilder<Bcc> {
 
     private java.lang.CharSequence real_name;
     private java.lang.CharSequence address;
 
     /** Creates a new Builder */
     private Builder() {
-      super(to.SCHEMA$);
+      super(Bcc.SCHEMA$);
     }
     
     /** Creates a Builder by copying an existing Builder */
-    private Builder(to.Builder other) {
+    private Builder(Bcc.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
@@ -121,9 +121,9 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
       }
     }
     
-    /** Creates a Builder by copying an existing to instance */
-    private Builder(to other) {
-            super(to.SCHEMA$);
+    /** Creates a Builder by copying an existing bcc instance */
+    private Builder(Bcc other) {
+            super(Bcc.SCHEMA$);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
         fieldSetFlags()[0] = true;
@@ -140,7 +140,7 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Sets the value of the 'real_name' field */
-    public to.Builder setRealName(java.lang.CharSequence value) {
+    public Bcc.Builder setRealName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.real_name = value;
       fieldSetFlags()[0] = true;
@@ -153,7 +153,7 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Clears the value of the 'real_name' field */
-    public to.Builder clearRealName() {
+    public Bcc.Builder clearRealName() {
       real_name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -165,7 +165,7 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Sets the value of the 'address' field */
-    public to.Builder setAddress(java.lang.CharSequence value) {
+    public Bcc.Builder setAddress(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.address = value;
       fieldSetFlags()[1] = true;
@@ -178,15 +178,15 @@ public class to extends org.apache.avro.specific.SpecificRecordBase implements o
     }
     
     /** Clears the value of the 'address' field */
-    public to.Builder clearAddress() {
+    public Bcc.Builder clearAddress() {
       address = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
-    public to build() {
+    public Bcc build() {
       try {
-        to record = new to();
+        Bcc record = new Bcc();
         record.real_name = fieldSetFlags()[0] ? this.real_name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.address = fieldSetFlags()[1] ? this.address : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;

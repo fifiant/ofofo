@@ -33,11 +33,11 @@ import org.apache.commons.compress.utils.Charsets;
 import analytic.ofofo.net.apis.gmail.api.IGmail;
 import analytic.ofofo.net.apis.gmail.avro.Mail;
 import analytic.ofofo.net.apis.gmail.model.Email;
-import analytic.ofofo.net.apis.gmail.model.bcc;
-import analytic.ofofo.net.apis.gmail.model.cc;
-import analytic.ofofo.net.apis.gmail.model.from;
-import analytic.ofofo.net.apis.gmail.model.reply_to;
-import analytic.ofofo.net.apis.gmail.model.to;
+import analytic.ofofo.net.apis.gmail.model.Bcc;
+import analytic.ofofo.net.apis.gmail.model.Cc;
+import analytic.ofofo.net.apis.gmail.model.From;
+import analytic.ofofo.net.apis.gmail.model.Reply_to;
+import analytic.ofofo.net.apis.gmail.model.To;
 
 public class MailReader implements IGmail{
 	
@@ -204,7 +204,7 @@ public class MailReader implements IGmail{
 				CharSequence subject = messages[i].getSubject();
 				CharSequence body = formatContent(messages[i].getContent());
 				CharSequence date = String.valueOf(messages[i].getSentDate());
-				from f = adressSplitter(messages[i].getFrom()[0]);
+				From f = adressSplitter(messages[i].getFrom()[0]);
 				Email email = new Email(message_id, thread_id, in_reply_to, subject, body, date, f, decomposeTos(messages[i].getRecipients(RecipientType.TO)), decomposeCc(messages[i].getRecipients(RecipientType.CC)), decomposeBcc(messages[i].getRecipients(RecipientType.BCC)), decomposeReply(messages[i].getAllRecipients(),f));
 				allMail.add(email);
 			} catch (IOException e) {
@@ -290,20 +290,20 @@ public class MailReader implements IGmail{
 	 * @param address
 	 * @return
 	 */
-	private static from adressSplitter(Address address){
+	private static From adressSplitter(Address address){
 		String pattern = "([<,>])";
 		String [] tab = null;
 		String [] temp = null;
-		from f ;
+		From f ;
 		if(address.toString().indexOf('@') !=-1){
 			temp  =  address.toString().split("<");
 			if(temp.length > 1){
-				f = new from(temp[0], temp[1].replaceAll(pattern, ""));
+				f = new From(temp[0], temp[1].replaceAll(pattern, ""));
 			}else {
-				f = new from(null, temp[0].replaceAll(pattern, ""));
+				f = new From(null, temp[0].replaceAll(pattern, ""));
 			}
 		}else{
-			f = new from(address.toString(), null);
+			f = new From(address.toString(), null);
 		}
 		return f;
 	}
@@ -313,7 +313,7 @@ public class MailReader implements IGmail{
 	 * @param all
 	 * @return
 	 */
-	private static Address[] mashup(from f, Address[] all) {
+	private static Address[] mashup(From f, Address[] all) {
 		Address[] a = new Address[1];
 		CharSequence tmp = "<" + f.getAddress() + ">";
 		a[0] = (Address) tmp; //this is not good ...
@@ -379,22 +379,22 @@ public class MailReader implements IGmail{
 	 * @param address
 	 * @return
 	 */
-	private static List<to> decomposeTos(Address[] address){ //TOs
+	private static List<To> decomposeTos(Address[] address){ //TOs
 		String pattern = "([<,>])";
 		Map<String, String> map = new HashMap<String, String>();
-		List<to> t = new ArrayList<to>();
+		List<To> t = new ArrayList<To>();
 		if (address != null) {
 			for (Address ad : address) {
 				int j = ad.toString().indexOf('@');
 				if(j!= -1){
 					String [] temp = ad.toString().split("<");
 					if(temp.length > 1){
-						t.add(new to(temp[0], temp[1].replaceAll(pattern, "")));
+						t.add(new To(temp[0], temp[1].replaceAll(pattern, "")));
 					}else{
-						t.add(new to(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
+						t.add(new To(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
 					}
 				}else{
-					t.add(new to(ad.toString(), null));
+					t.add(new To(ad.toString(), null));
 				}
 			}
 		}
@@ -405,23 +405,23 @@ public class MailReader implements IGmail{
 	 * @param address
 	 * @return
 	 */
-	private static List<cc> decomposeCc(Address[] address){ //Cc
+	private static List<Cc> decomposeCc(Address[] address){ //Cc
 		String pattern = "([<,>])";
 		Map<String, String> map = new HashMap<String, String>();
-		List<cc> c = new ArrayList<cc>();
+		List<Cc> c = new ArrayList<Cc>();
 		if (address != null) {
 			for (Address ad : address) {
 				int j = ad.toString().indexOf('@');
 				if(j!= -1){
 					String [] temp = ad.toString().split("<");
 					if(temp.length > 1){
-						c.add(new cc(temp[0], temp[1].replaceAll(pattern, "")));
+						c.add(new Cc(temp[0], temp[1].replaceAll(pattern, "")));
 						map.put(temp[0],temp[1].replaceAll(pattern, ""));
 					}else{
-						c.add(new cc(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
+						c.add(new Cc(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
 					}
 				}else{
-					c.add(new cc(ad.toString(), null));
+					c.add(new Cc(ad.toString(), null));
 				}
 			}
 		}
@@ -432,23 +432,23 @@ public class MailReader implements IGmail{
 	 * @param address
 	 * @return
 	 */
-	private static List<bcc> decomposeBcc(Address[] address){ //Cc
+	private static List<Bcc> decomposeBcc(Address[] address){ //Cc
 		String pattern = "([<,>])";
 		Map<String, String> map = new HashMap<String, String>();
-		List<bcc> b = new ArrayList<bcc>();
+		List<Bcc> b = new ArrayList<Bcc>();
 		if (address != null) {
 			for (Address ad : address) {
 				int j = ad.toString().indexOf('@');
 				if(j!= -1){
 					String [] temp = ad.toString().split("<");
 					if(temp.length > 1){
-						b.add(new bcc(temp[0], temp[1].replaceAll(pattern, "")));
+						b.add(new Bcc(temp[0], temp[1].replaceAll(pattern, "")));
 						map.put(temp[0],temp[1].replaceAll(pattern, ""));
 					}else{
-						b.add(new bcc(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
+						b.add(new Bcc(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
 					}
 				}else{
-					b.add(new bcc(ad.toString(), null));
+					b.add(new Bcc(ad.toString(), null));
 				}
 			}
 		}
@@ -459,22 +459,22 @@ public class MailReader implements IGmail{
 	 * @param address
 	 * @return
 	 */
-	private static List<reply_to> decomposeRepl(Address[] address){ //Cc
+	private static List<Reply_to> decomposeRepl(Address[] address){ //Cc
 		String pattern = "([<,>])";
 		Map<String, String> map = new HashMap<String, String>();
-		List<reply_to> r = new ArrayList<reply_to>();
+		List<Reply_to> r = new ArrayList<Reply_to>();
 		if (address != null) {
 			for (Address ad : address) {
 				int j = ad.toString().indexOf('@');
 				if(j!= -1){
 					String [] temp = ad.toString().split("<");
 					if(temp.length > 1){
-						r.add(new reply_to(temp[0], temp[1].replaceAll(pattern, "")));
+						r.add(new Reply_to(temp[0], temp[1].replaceAll(pattern, "")));
 					}else{
-						r.add(new reply_to(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
+						r.add(new Reply_to(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
 					}
 				}else{
-					r.add(new reply_to(ad.toString(), null));
+					r.add(new Reply_to(ad.toString(), null));
 				}
 			}
 		}
@@ -486,27 +486,27 @@ public class MailReader implements IGmail{
 	 * @param f
 	 * @return
 	 */
-	private static List<reply_to> decomposeReply(Address[] address, from f){ //Cc
+	private static List<Reply_to> decomposeReply(Address[] address, From f){ //Cc
 		String pattern = "([<,>])";
 		Map<String, String> map = new HashMap<String, String>();
-		List<reply_to> r = new ArrayList<reply_to>();
+		List<Reply_to> r = new ArrayList<Reply_to>();
 		if (address != null) {
 			for (Address ad : address) {
 				int j = ad.toString().indexOf('@');
 				if(j!= -1){
 					String [] temp = ad.toString().split("<");
 					if(temp.length > 1){
-						r.add(new reply_to(temp[0], temp[1].replaceAll(pattern, "")));
+						r.add(new Reply_to(temp[0], temp[1].replaceAll(pattern, "")));
 					}else{
-						r.add(new reply_to(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
+						r.add(new Reply_to(null, ad.toString().split(" ")[0].replaceAll(pattern, "")));
 					}
 				}else{
-					r.add(new reply_to(ad.toString(), null));
+					r.add(new Reply_to(ad.toString(), null));
 				}
 			}
 		}
 		// add from address here
-		r.add(new reply_to(f.getRealName(), f.getAddress()));
+		r.add(new Reply_to(f.getRealName(), f.getAddress()));
 		return r;
 	}
 	

@@ -7,7 +7,7 @@ package analytic.ofofo.net.apis.gmail.model;
  */
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class reply_to extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+public class Reply_to extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"reply_to\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   /**  */
@@ -20,12 +20,12 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>. 
    */
-  public reply_to() {}
+  public Reply_to() {}
 
   /**
    * All-args constructor.
    */
-  public reply_to(java.lang.CharSequence real_name, java.lang.CharSequence address) {
+  public Reply_to(java.lang.CharSequence real_name, java.lang.CharSequence address) {
     this.real_name = real_name;
     this.address = address;
   }
@@ -80,36 +80,36 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
   }
 
   /** Creates a new reply_to RecordBuilder */
-  public static reply_to.Builder newBuilder() {
-    return new reply_to.Builder();
+  public static Reply_to.Builder newBuilder() {
+    return new Reply_to.Builder();
   }
   
   /** Creates a new reply_to RecordBuilder by copying an existing Builder */
-  public static reply_to.Builder newBuilder(reply_to.Builder other) {
-    return new reply_to.Builder(other);
+  public static Reply_to.Builder newBuilder(Reply_to.Builder other) {
+    return new Reply_to.Builder(other);
   }
   
   /** Creates a new reply_to RecordBuilder by copying an existing reply_to instance */
-  public static reply_to.Builder newBuilder(reply_to other) {
-    return new reply_to.Builder(other);
+  public static Reply_to.Builder newBuilder(Reply_to other) {
+    return new Reply_to.Builder(other);
   }
   
   /**
    * RecordBuilder for reply_to instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<reply_to>
-    implements org.apache.avro.data.RecordBuilder<reply_to> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Reply_to>
+    implements org.apache.avro.data.RecordBuilder<Reply_to> {
 
     private java.lang.CharSequence real_name;
     private java.lang.CharSequence address;
 
     /** Creates a new Builder */
     private Builder() {
-      super(reply_to.SCHEMA$);
+      super(Reply_to.SCHEMA$);
     }
     
     /** Creates a Builder by copying an existing Builder */
-    private Builder(reply_to.Builder other) {
+    private Builder(Reply_to.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
@@ -122,8 +122,8 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
     }
     
     /** Creates a Builder by copying an existing reply_to instance */
-    private Builder(reply_to other) {
-            super(reply_to.SCHEMA$);
+    private Builder(Reply_to other) {
+            super(Reply_to.SCHEMA$);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
         fieldSetFlags()[0] = true;
@@ -140,7 +140,7 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
     }
     
     /** Sets the value of the 'real_name' field */
-    public reply_to.Builder setRealName(java.lang.CharSequence value) {
+    public Reply_to.Builder setRealName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.real_name = value;
       fieldSetFlags()[0] = true;
@@ -153,7 +153,7 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
     }
     
     /** Clears the value of the 'real_name' field */
-    public reply_to.Builder clearRealName() {
+    public Reply_to.Builder clearRealName() {
       real_name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -165,7 +165,7 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
     }
     
     /** Sets the value of the 'address' field */
-    public reply_to.Builder setAddress(java.lang.CharSequence value) {
+    public Reply_to.Builder setAddress(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.address = value;
       fieldSetFlags()[1] = true;
@@ -178,15 +178,15 @@ public class reply_to extends org.apache.avro.specific.SpecificRecordBase implem
     }
     
     /** Clears the value of the 'address' field */
-    public reply_to.Builder clearAddress() {
+    public Reply_to.Builder clearAddress() {
       address = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
-    public reply_to build() {
+    public Reply_to build() {
       try {
-        reply_to record = new reply_to();
+        Reply_to record = new Reply_to();
         record.real_name = fieldSetFlags()[0] ? this.real_name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.address = fieldSetFlags()[1] ? this.address : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;

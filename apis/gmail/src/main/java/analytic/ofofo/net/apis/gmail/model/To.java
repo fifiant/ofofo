@@ -7,8 +7,8 @@ package analytic.ofofo.net.apis.gmail.model;
  */
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class from extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"from\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
+public class To extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"to\",\"fields\":[{\"name\":\"real_name\",\"type\":[\"null\",\"string\"],\"doc\":\"\"},{\"name\":\"address\",\"type\":[\"null\",\"string\"],\"doc\":\"\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   /**  */
   @Deprecated public java.lang.CharSequence real_name;
@@ -20,12 +20,12 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>. 
    */
-  public from() {}
+  public To() {}
 
   /**
    * All-args constructor.
    */
-  public from(java.lang.CharSequence real_name, java.lang.CharSequence address) {
+  public To(java.lang.CharSequence real_name, java.lang.CharSequence address) {
     this.real_name = real_name;
     this.address = address;
   }
@@ -79,37 +79,37 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
     this.address = value;
   }
 
-  /** Creates a new from RecordBuilder */
-  public static from.Builder newBuilder() {
-    return new from.Builder();
+  /** Creates a new to RecordBuilder */
+  public static To.Builder newBuilder() {
+    return new To.Builder();
   }
   
-  /** Creates a new from RecordBuilder by copying an existing Builder */
-  public static from.Builder newBuilder(from.Builder other) {
-    return new from.Builder(other);
+  /** Creates a new to RecordBuilder by copying an existing Builder */
+  public static To.Builder newBuilder(To.Builder other) {
+    return new To.Builder(other);
   }
   
-  /** Creates a new from RecordBuilder by copying an existing from instance */
-  public static from.Builder newBuilder(from other) {
-    return new from.Builder(other);
+  /** Creates a new to RecordBuilder by copying an existing to instance */
+  public static To.Builder newBuilder(To other) {
+    return new To.Builder(other);
   }
   
   /**
-   * RecordBuilder for from instances.
+   * RecordBuilder for to instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<from>
-    implements org.apache.avro.data.RecordBuilder<from> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<To>
+    implements org.apache.avro.data.RecordBuilder<To> {
 
     private java.lang.CharSequence real_name;
     private java.lang.CharSequence address;
 
     /** Creates a new Builder */
     private Builder() {
-      super(from.SCHEMA$);
+      super(To.SCHEMA$);
     }
     
     /** Creates a Builder by copying an existing Builder */
-    private Builder(from.Builder other) {
+    private Builder(To.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
@@ -121,9 +121,9 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
       }
     }
     
-    /** Creates a Builder by copying an existing from instance */
-    private Builder(from other) {
-            super(from.SCHEMA$);
+    /** Creates a Builder by copying an existing to instance */
+    private Builder(To other) {
+            super(To.SCHEMA$);
       if (isValidValue(fields()[0], other.real_name)) {
         this.real_name = data().deepCopy(fields()[0].schema(), other.real_name);
         fieldSetFlags()[0] = true;
@@ -140,7 +140,7 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
     }
     
     /** Sets the value of the 'real_name' field */
-    public from.Builder setRealName(java.lang.CharSequence value) {
+    public To.Builder setRealName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.real_name = value;
       fieldSetFlags()[0] = true;
@@ -153,7 +153,7 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
     }
     
     /** Clears the value of the 'real_name' field */
-    public from.Builder clearRealName() {
+    public To.Builder clearRealName() {
       real_name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -165,7 +165,7 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
     }
     
     /** Sets the value of the 'address' field */
-    public from.Builder setAddress(java.lang.CharSequence value) {
+    public To.Builder setAddress(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.address = value;
       fieldSetFlags()[1] = true;
@@ -178,15 +178,15 @@ public class from extends org.apache.avro.specific.SpecificRecordBase implements
     }
     
     /** Clears the value of the 'address' field */
-    public from.Builder clearAddress() {
+    public To.Builder clearAddress() {
       address = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
-    public from build() {
+    public To build() {
       try {
-        from record = new from();
+        To record = new To();
         record.real_name = fieldSetFlags()[0] ? this.real_name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.address = fieldSetFlags()[1] ? this.address : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;
