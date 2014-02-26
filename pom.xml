@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>analytic.ofofo.net</groupId>
 	<artifactId>ofofo</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>ofofo</name>
@@ -37,11 +38,10 @@
 		<url>https://github.com/fifiant/ofofo/issues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:git:git@github.com/fifiant/ofofo.git</connection>
 		<developerConnection>scm:git:git@github.com/fifiant/ofofo.git</developerConnection>
-		<url>git@github.com/fifiant/ofofo.git</url>
-	  <tag>ofofo-0.0.1</tag>
-  </scm>
+		<url>https://github.com/fifiant/ofofo</url>
+		<tag>ofofo-0.0.1-SNAPSHOT</tag>
+	</scm>
 	<mailingLists>
 		<mailingList>
 			<name>ofofo</name>
@@ -133,14 +133,14 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>fifiant-github-repo</id>
-			<url>file:///Users/florencemcdonagh/Documents/workspace/ofofo</url>
+			<url>file:///Users/florencemcdonagh/Documents/workspace/maven-repo/repository</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<modules>
 		<module>apis</module>
 	</modules>
