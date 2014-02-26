@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
 	<name>ofofo</name>
-	<url>http://ofofo.net</url>
+	<url>https://github.com/fifiant/ofofo</url>
 	<description>Analityc API for E-Mail</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -11,7 +11,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>apis</name>
-	<url>http://ofofo.net</url>
+	<url>https://github.com/fifiant/ofofo</url>
 	
 	<properties>
 		
