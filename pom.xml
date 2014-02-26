@@ -3,7 +3,7 @@
 
 	<groupId>analytic.ofofo.net</groupId>
 	<artifactId>ofofo</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>ofofo</name>
@@ -39,7 +39,7 @@
 	<scm>
 		<developerConnection>scm:git:git@github.com/fifiant/ofofo.git</developerConnection>
 		<url>https://github.com/fifiant/ofofo</url>
-		<tag>ofofo-0.0.1</tag>
+		<tag>ofofo-0.0.1-SNAPSHOT</tag>
 	</scm>
 	<mailingLists>
 		<mailingList>
@@ -136,7 +136,7 @@
 	<distributionManagement>
 		<repository>
 			<id>fifiant-github-repo</id>
-			<url>file:///Users/florencemcdonagh/Documents/workspace/maven-repo/repository</url>
+			<url>file:///Users/florencemcdonagh/Documents/workspace/maven_repo/repository</url>
 		</repository>
 	</distributionManagement>
 
