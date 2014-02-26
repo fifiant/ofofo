@@ -12,7 +12,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>gmail</name>
-	<url>http://org.ofofo.net</url>
+	<url>https://github.com/fifiant/ofofo</url>
 
 	<properties>
 	    <avro.version>1.7.6</avro.version>
