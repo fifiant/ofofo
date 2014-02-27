@@ -243,22 +243,13 @@ public class MailReader implements IGmail{
 		}
 		return content;
 	}
-	/**
-	 * @param value
-	 * @param encode
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 */
+	/*
 	private static String decode(String value, String encode) throws UnsupportedEncodingException{
 		
 		Charset UTF8_CHARSET = Charset.forName(encode);
 		return new String(getBytesIso8859_1(value), UTF8_CHARSET);
 	}
 
-	/**
-	 * @param string
-	 * @return
-	 */
 	public static byte[] getBytesIso8859_1(final String string) {
 		return getBytes(string, Charsets.ISO_8859_1);
 	}
@@ -269,7 +260,7 @@ public class MailReader implements IGmail{
 		}
 		return string.getBytes(charset);
 	}
-	
+	*/
 	/**
 	 * @param address
 	 * @return
