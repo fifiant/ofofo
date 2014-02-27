@@ -3,8 +3,6 @@ package analytic.ofofo.net.apis.gmail.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,21 +26,27 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
-import org.apache.commons.compress.utils.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import analytic.ofofo.net.apis.gmail.api.IGmail;
 import analytic.ofofo.net.apis.gmail.avro.Mail;
-import analytic.ofofo.net.apis.gmail.model.Email;
 import analytic.ofofo.net.apis.gmail.model.Bcc;
 import analytic.ofofo.net.apis.gmail.model.Cc;
+import analytic.ofofo.net.apis.gmail.model.Email;
 import analytic.ofofo.net.apis.gmail.model.From;
 import analytic.ofofo.net.apis.gmail.model.Reply_to;
 import analytic.ofofo.net.apis.gmail.model.To;
+import analytic.ofofo.net.apis.gmail.utils.MailSettings;
 
 public class MailReader implements IGmail{
 	
+	private static final Logger LOG = LoggerFactory.getLogger(MailReader.class );
+	
 	private String login;
 	private String passwd;
+	private String provider;
+	
 	private Message [] messages;
 	
 	public Message[] getMessages() {
@@ -73,16 +77,46 @@ public class MailReader implements IGmail{
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	
+
 	public MailReader(String login, String passwd){
-		this.login = login;
-		this.passwd = passwd;
+		this(login, passwd, null);
 	}
 	
+	public MailReader(String login, String passwd, String provider){
+		this.login = login;
+		this.passwd = passwd;
+		this.provider = provider;
+	}
+	
+	public String loadMailSetting(){
+		String set  = null;
+		
+		if(this.getProvider()==null){
+			set = MailSettings.GMAIL;
+			LOG.debug(" Provider Settings: " + MailSettings.GMAIL);
+		}else if(this.getProvider().equalsIgnoreCase("gmail")){
+			set = MailSettings.GMAIL;
+			LOG.debug(" Provider Settings: " + MailSettings.GMAIL);
+		}else if(this.getProvider().equalsIgnoreCase("yahoo")){
+			set = MailSettings.YAHOO;
+			LOG.debug(" Provider Settings: " + MailSettings.YAHOO);
+		}
+		return set;
+	}
 	
 	public  int getMessagesCount(){
 		return this.getMessages().length;
 	}
+	
+	public String getProvider() {
+		return provider;
+	}
+
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see analytic.ofofo.net.apis.gmail.api.IGmail#getMessage(int)
@@ -144,28 +178,27 @@ public class MailReader implements IGmail{
 	private Message [] collectEmail(){// download message from server
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");
-	    String login = System.getenv("login") ;
-	    String kokoro = System.getenv("kokoro") ;
 		
 		Message messages[] = null;
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
-			store.connect("imap.gmail.com", this.getLogin(), this.getPasswd());
-			System.out.println(store);
+			store.connect(this.loadMailSetting(), this.getLogin(), this.getPasswd());
+			LOG.debug(" Trying authentification on " + this.getProvider());
 
 			Folder inbox = store.getFolder("Inbox");
 			inbox.open(Folder.READ_ONLY);
 			
 			messages = inbox.getMessages();
+			LOG.debug("Total messages load from " + this.getProvider() + "are " + messages.length);
 			this.setMessages(messages); //set Message
 			
 		} catch (NoSuchProviderException e) {
-			e.printStackTrace();
-			System.exit(1);
+			LOG.error(e.getMessage());
+			//System.exit(1);
 		} catch (MessagingException e) {
-			e.printStackTrace();
-			System.exit(2);
+			LOG.error(e.getMessage());
+			//System.exit(2);
 		}
 		
 		return messages;
@@ -186,37 +219,46 @@ public class MailReader implements IGmail{
 	private Message getMessages(int messageNumber){
 		Message messages[] = collectEmail();
 		if(messageNumber<0){
-			 throw new IllegalArgumentException("Id is negative.");
+			LOG.error("Illegal arguments");
+			throw new IllegalArgumentException("Id is negative.");
 		}
 		return messageNumber < messages.length ? messages[messageNumber] : messages[0];
 	}
 	public void emailSerial() throws MessagingException{
 //		Message [] messages =  new Message[1];
 //		messages[0] = getMessages(399);
-		Message messages[] = messagesToLoad(400);
+		Message messages[] = messagesToLoad(100);
 		List<Email> allMail = new ArrayList<Email>();
 		//messages.length
 		for (int i =0; i< messages.length; i++) {
 			try {
+				CharSequence body = null;
 				CharSequence message_id  = getMsgId(); //message_id = UUID
 				CharSequence thread_id = String.valueOf(i); //hread_Id = message number in the loop
 				CharSequence in_reply_to = (decomposeFrom(messages[i].getFrom()[0]))[1];
 				CharSequence subject = messages[i].getSubject();
-				CharSequence body = formatContent(messages[i].getContent());
+				if(this.getProvider().equalsIgnoreCase("gmail")){
+					body = formatContent(messages[i].getContent());
+				}else if(this.getProvider().equalsIgnoreCase("yahoo")){
+					body = messages[i].getContent().toString();
+				}else{
+					body = formatContent(messages[i].getContent());
+				}
 				CharSequence date = String.valueOf(messages[i].getSentDate());
 				From f = adressSplitter(messages[i].getFrom()[0]);
 				Email email = new Email(message_id, thread_id, in_reply_to, subject, body, date, f, decomposeTos(messages[i].getRecipients(RecipientType.TO)), decomposeCc(messages[i].getRecipients(RecipientType.CC)), decomposeBcc(messages[i].getRecipients(RecipientType.BCC)), decomposeReply(messages[i].getAllRecipients(),f));
 				allMail.add(email);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		//Email json file 
 		File mf = new File("mail.json"); 
+		LOG.debug("Initialize the file name");
 		try {
 			writeJsonFile(mf, allMail);
 		} catch (IOException e) {
-			System.err.println("Main: " + e.getMessage());
+			LOG.error(e.getMessage());
 		}
 	}
 	
@@ -233,10 +275,10 @@ public class MailReader implements IGmail{
 				try {
 					content = bp.getContent().toString();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		} else {
 			content = obj.toString();
@@ -545,13 +587,14 @@ public class MailReader implements IGmail{
 	
 	/*
 	public static void main(String args[]) {
+		MailReader mail = new MailReader("identifier", "pass", "provider_name");
 		try {
-			emailSerial();
+			mail.emailSerial();
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} 
 
 	}
+	*/
 	
-*/
 }
