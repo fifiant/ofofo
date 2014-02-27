@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>ofofo</artifactId>
 		<groupId>analytic.ofofo.net</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<groupId>analytic.ofofo.net</groupId>
 	<artifactId>apis</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 	<name>apis</name>
 	<url>https://github.com/fifiant/ofofo</url>
