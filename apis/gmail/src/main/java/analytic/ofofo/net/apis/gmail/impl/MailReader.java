@@ -93,13 +93,13 @@ public class MailReader implements IGmail{
 		
 		if(this.getProvider()==null){
 			set = MailSettings.GMAIL;
-			LOG.debug(" Provider Settings: " + MailSettings.GMAIL);
+			LOG.info(" Provider Settings: " + MailSettings.GMAIL);
 		}else if(this.getProvider().equalsIgnoreCase("gmail")){
 			set = MailSettings.GMAIL;
-			LOG.debug(" Provider Settings: " + MailSettings.GMAIL);
+			LOG.info(" Provider Settings: " + MailSettings.GMAIL);
 		}else if(this.getProvider().equalsIgnoreCase("yahoo")){
 			set = MailSettings.YAHOO;
-			LOG.debug(" Provider Settings: " + MailSettings.YAHOO);
+			LOG.info(" Provider Settings: " + MailSettings.YAHOO);
 		}
 		return set;
 	}
@@ -184,13 +184,13 @@ public class MailReader implements IGmail{
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
 			store.connect(this.loadMailSetting(), this.getLogin(), this.getPasswd());
-			LOG.debug(" Trying authentification on " + this.getProvider());
+			LOG.info(" Trying authentification on " + this.getProvider());
 
 			Folder inbox = store.getFolder("Inbox");
 			inbox.open(Folder.READ_ONLY);
 			
 			messages = inbox.getMessages();
-			LOG.debug("Total messages load from " + this.getProvider() + "are " + messages.length);
+			LOG.info("Total messages load from " + this.getProvider() + "are " + messages.length);
 			this.setMessages(messages); //set Message
 			
 		} catch (NoSuchProviderException e) {
@@ -254,7 +254,7 @@ public class MailReader implements IGmail{
 		}
 		//Email json file 
 		File mf = new File("mail.json"); 
-		LOG.debug("Initialize the file name");
+		LOG.info("Initialize the file name");
 		try {
 			writeJsonFile(mf, allMail);
 		} catch (IOException e) {
