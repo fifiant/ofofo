@@ -4,12 +4,11 @@
 	<parent>
 		<artifactId>ofofo</artifactId>
 		<groupId>analytic.ofofo.net</groupId>
-		<version>0.0.1</version>
-<!-- 		<relativePath>../parent/pom.xml</relativePath> -->
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>analytic.ofofo.net</groupId>
 	<artifactId>apis</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>apis</name>
 	<url>https://github.com/fifiant/ofofo</url>
@@ -24,7 +23,4 @@
 		<module>gmail</module>
 	</modules>
 
-  <scm>
-    <tag>ofofo-0.0.1</tag>
-  </scm>
 </project>
