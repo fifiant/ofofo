@@ -131,7 +131,7 @@ public class MailReader implements IGmail{
 	public Message [] getMsgBetween(int numbera, int numberb){
 		Message [] temp = null;
 		if(numbera <0 && numberb>this.getMessagesCount() && numberb - numbera > 0){
-			throw new IllegalArgumentException("Error: illegal argument.");
+			throw new IllegalArgumentException("Error: illegal arguments.");
 		}
 		
 		System.arraycopy(this.getMessages(), numbera, temp, 0, numberb - numbera +1);
@@ -151,7 +151,7 @@ public class MailReader implements IGmail{
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
-			store.connect("imap.gmail.com", this.getLogin(), "xxxxx");
+			store.connect("imap.gmail.com", this.getLogin(), this.getPasswd());
 			System.out.println(store);
 
 			Folder inbox = store.getFolder("Inbox");

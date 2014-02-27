@@ -38,8 +38,9 @@
 		<url>https://github.com/fifiant/ofofo/issues</url>
 	</issueManagement>
 	<scm>
-		<developerConnection>scm:git:git@github.com/fifiant/ofofo.git</developerConnection>
 		<url>https://github.com/fifiant/ofofo</url>
+		<connection>scm:git:https://github.com/fifiant/ofofo.git</connection>
+		<developerConnection>scm:git:https://github.com/fifiant/ofofo.git</developerConnection>
 		<tag>ofofo-0.0.1-SNAPSHOT</tag>
 	</scm>
 	<mailingLists>
@@ -146,7 +147,7 @@
 	<distributionManagement>
 		<repository>
 			<id>fifiant-github-repo</id>
-			<url>file:///Users/florencemcdonagh/Documents/workspace/maven_repo/repository</url>
+			<url>file:///home/fernand/workspace14/maven_repo/repository</url>
 		</repository>
 	</distributionManagement>
 
