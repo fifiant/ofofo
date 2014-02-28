@@ -44,7 +44,7 @@
 	</util:map>
 	
 	<!-- REST SERVER -->
-	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceRest" />
+	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceRestEndpoint" />
 	<jaxrs:server id="restContainer" address="/1.0/rest">
 		<jaxrs:providers>
 			<ref bean="jaxbProvider" />
