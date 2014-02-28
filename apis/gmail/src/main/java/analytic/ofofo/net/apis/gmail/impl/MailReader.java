@@ -3,6 +3,7 @@ package analytic.ofofo.net.apis.gmail.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +44,27 @@ public class MailReader implements IGmail{
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MailReader.class );
 	
+	private static final String ENCODING = "ISO-8859-1";
+
 	private String login;
+	
 	private String passwd;
+	
 	private String provider;
 	
+	private Message [] allMsgCache = null;
+	
+	private	List<Email> allMail = new ArrayList<Email>();
+	
+	public List<Email> getAllMail() {
+		return allMail;
+	}
+
+
+	public void setAllMail(List<Email> allMail) {
+		this.allMail = allMail;
+	}
+
 	private Message [] messages;
 	
 	public Message[] getMessages() {
@@ -88,6 +106,11 @@ public class MailReader implements IGmail{
 		this.provider = provider;
 	}
 	
+	public MailReader(){
+		this.login = "fifiant";
+		this.passwd = "R2507zopipo";
+		this.provider = "gmail";
+	}
 	public String loadMailSetting(){
 		String set  = null;
 		
@@ -200,7 +223,8 @@ public class MailReader implements IGmail{
 			LOG.error(e.getMessage());
 			//System.exit(2);
 		}
-		
+		allMsgCache = messages; // set the messages inside cache
+		LOG.debug("Cache size : " + allMsgCache.length + "\n\n\n\n\n\n\n\n");
 		return messages;
 	}
 	
@@ -209,7 +233,14 @@ public class MailReader implements IGmail{
 	 * @return
 	 */
 	private Message [] messagesToLoad(int number){
-		Message [] messages = Arrays.copyOf(collectEmail(), number);
+		Message [] messages = null;
+		if(allMsgCache == null || allMsgCache.length==0){
+			messages = Arrays.copyOf(collectEmail(), number);
+			LOG.debug("Cache is empty \n\n\n\n\n\n\n\n\n");
+		}else {
+			messages = Arrays.copyOf(allMsgCache, number);
+			LOG.debug("Cache is not empty \n\n\n\n\n\n\n\n\n");
+		}
 		return messages;
 	}
 	/**
@@ -225,11 +256,30 @@ public class MailReader implements IGmail{
 		return messageNumber < messages.length ? messages[messageNumber] : messages[0];
 	}
 	public void emailSerial() throws MessagingException{
+		List<Email> allMails = new ArrayList<Email>();
 //		Message [] messages =  new Message[1];
 //		messages[0] = getMessages(399);
 		Message messages[] = messagesToLoad(100);
-		List<Email> allMail = new ArrayList<Email>();
-		//messages.length
+		allMails = messagesMapper(messages);
+		//Email json file 
+		File mf = new File("mail.json"); 
+		LOG.info("Initialize the file name");
+		try {
+			writeJsonFile(mf, allMails);
+		} catch (IOException e) {
+			LOG.error(e.getMessage());
+		}
+	}
+	
+	public List<Email> getFirstMail() throws MessagingException{
+		Message messages[] = messagesToLoad(1);
+		return messagesMapper(messages);
+	}
+
+
+	private List<Email> messagesMapper(Message[] messages) throws MessagingException {
+		List<Email> allMails = new ArrayList<Email>();
+		
 		for (int i =0; i< messages.length; i++) {
 			try {
 				CharSequence body = null;
@@ -247,21 +297,13 @@ public class MailReader implements IGmail{
 				CharSequence date = String.valueOf(messages[i].getSentDate());
 				From f = adressSplitter(messages[i].getFrom()[0]);
 				Email email = new Email(message_id, thread_id, in_reply_to, subject, body, date, f, decomposeTos(messages[i].getRecipients(RecipientType.TO)), decomposeCc(messages[i].getRecipients(RecipientType.CC)), decomposeBcc(messages[i].getRecipients(RecipientType.BCC)), decomposeReply(messages[i].getAllRecipients(),f));
-				allMail.add(email);
+				allMails.add(email);
 			} catch (IOException e) {
 				LOG.error(e.getMessage());
 			}
 		}
-		//Email json file 
-		File mf = new File("mail.json"); 
-		LOG.info("Initialize the file name");
-		try {
-			writeJsonFile(mf, allMail);
-		} catch (IOException e) {
-			LOG.error(e.getMessage());
-		}
+		return allMails;
 	}
-	
 	/**
 	 * @param obj
 	 * @return
@@ -583,6 +625,30 @@ public class MailReader implements IGmail{
 			writer.write(m, e);
 		}
 		e.flush();
+	}
+	
+	public String writeJsonToString(List<Email> mail) throws IOException {
+		GenericDatumWriter writer = new GenericDatumWriter(Mail.SCHEMA);
+		OutputStream fos = new OutputStream() {
+			private StringBuilder string = new StringBuilder();
+			@Override
+			public void write(int b) throws IOException {
+				this.string.append((char) b );
+			}
+	        public String toString(){
+	            return this.string.toString();
+	        }
+		};
+		Encoder e = EncoderFactory.get().jsonEncoder(Mail.SCHEMA,fos);
+
+		for (Email m : mail) {
+			writer.write(m, e);
+		}
+		e.flush();
+		fos.flush();
+		byte[] latin1 = fos.toString().getBytes(ENCODING);
+		//return fos.toString();
+		return new String(latin1);
 	}
 	
 	/*
