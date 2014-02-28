@@ -17,7 +17,7 @@
 
 	<!-- SOAP -->
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<context:component-scan base-package="org.exampledriven.cxfexample" />
+	<context:component-scan base-package="analytic.ofofo.net" />
 
 	<!-- PROVIDERS -->
 
@@ -45,7 +45,7 @@
 	
 	<!-- REST SERVER -->
 	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceRest" />
-	<jaxrs:server id="restContainer" address="/rest">
+	<jaxrs:server id="restContainer" address="/1.0/rest">
 		<jaxrs:providers>
 			<ref bean="jaxbProvider" />
 			<ref bean="jsonProvider" />
@@ -63,7 +63,7 @@
 	<!-- SOAP SERVER -->
 
 	<jaxws:endpoint id="mail" implementor="#mailService"
-		address="/soap" />
+		address="/soap/1.0/soap" />
 
 	<!-- CXF Message logging -->
 

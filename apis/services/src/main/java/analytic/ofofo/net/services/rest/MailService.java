@@ -11,7 +11,7 @@ import org.apache.cxf.jaxrs.model.wadl.Description;
 import org.apache.cxf.jaxrs.model.wadl.Descriptions;
 import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 
-@Path("/1.0/mails/")
+@Path("/mails/")
 @WebService
 public interface MailService {
 	
