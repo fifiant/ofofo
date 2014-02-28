@@ -22,7 +22,7 @@
 	<!-- PROVIDERS -->
 
 	<bean id="wadlProvider" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
-		<property name="applicationTitle" value="CXF Test sample application" />
+		<property name="applicationTitle" value="Ofofo REST Service" />
 	</bean>
 
 	<bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
@@ -44,7 +44,7 @@
 	</util:map>
 	
 	<!-- REST SERVER -->
-	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceImpl" />
+	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceRest" />
 	<jaxrs:server id="restContainer" address="/rest">
 		<jaxrs:providers>
 			<ref bean="jaxbProvider" />
@@ -62,7 +62,7 @@
 
 	<!-- SOAP SERVER -->
 
-	<jaxws:endpoint id="location" implementor="#mailService"
+	<jaxws:endpoint id="mail" implementor="#mailService"
 		address="/soap" />
 
 	<!-- CXF Message logging -->
@@ -72,5 +72,8 @@
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
+	
+	<!-- Spring Validation -->
+<!-- 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/> -->
 
 </beans>
