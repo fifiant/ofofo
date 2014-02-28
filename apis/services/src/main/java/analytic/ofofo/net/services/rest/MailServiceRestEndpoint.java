@@ -17,19 +17,10 @@ import analytic.ofofo.net.services.exception.meta.MailResponseExceptionMapper;
 
 public class MailServiceRestEndpoint implements MailService{
 	
-	private MailService mailService;
 	
 	public MailReader mr = new MailReader();; 
 	public MailServiceRestEndpoint(){
 		
-	}
-	public MailServiceRestEndpoint(String appURI){
-		List<Object> providers = new LinkedList<Object>();
-		providers.add(new MailResponseExceptionMapper());
-		mailService = JAXRSClientFactory.create(appURI + "/service/", MailService.class, providers, true);
-		ClientConfiguration cfgProxy = WebClient.getConfig(mailService);
-		cfgProxy.getHttpConduit().getAuthorization().setPassword("ofofouser");
-		cfgProxy.getHttpConduit().getAuthorization().setUserName("ofofouser");
 	}
 	
 	@Override
