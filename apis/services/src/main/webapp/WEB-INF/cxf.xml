@@ -44,7 +44,7 @@
 	</util:map>
 	
 	<!-- REST SERVER -->
-
+	<bean id="mailService" class="analytic.ofofo.net.services.rest.MailServiceImpl" />
 	<jaxrs:server id="restContainer" address="/rest">
 		<jaxrs:providers>
 			<ref bean="jaxbProvider" />
@@ -52,7 +52,7 @@
 			<ref bean="wadlProvider" />
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
-			<ref bean="locationService" />
+			<ref bean="mailService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
@@ -62,7 +62,7 @@
 
 	<!-- SOAP SERVER -->
 
-	<jaxws:endpoint id="location" implementor="#locationService"
+	<jaxws:endpoint id="location" implementor="#mailService"
 		address="/soap" />
 
 	<!-- CXF Message logging -->

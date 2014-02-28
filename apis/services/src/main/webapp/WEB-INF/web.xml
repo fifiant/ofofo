@@ -18,7 +18,7 @@
 
 	<filter-mapping>
 	    <filter-name>springSecurityFilterChain</filter-name>
-	    <url-pattern>/cxf/*</url-pattern>
+	    <url-pattern>/service/*</url-pattern>
 	</filter-mapping>
 
     <listener>
@@ -42,7 +42,7 @@
  -->
         <load-on-startup>1</load-on-startup>
     </servlet>
-
+<!-- 
 	<servlet>
 		<servlet-name>location</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -53,16 +53,16 @@
 		<load-on-startup>2</load-on-startup>
 
 	</servlet>
-
+ -->
     <servlet-mapping>
         <servlet-name>CXFServlet</servlet-name>
-        <url-pattern>/cxf/*</url-pattern>
+        <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>location</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>location</servlet-name> -->
+<!-- 		<url-pattern>/</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
 
 	<error-page>
