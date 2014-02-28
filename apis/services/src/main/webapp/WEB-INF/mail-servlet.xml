@@ -11,7 +11,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 <mvc:annotation-driven />
 
-    <context:component-scan base-package="org.exampledriven.cxfexample"/>
+    <context:component-scan base-package="analytic.ofofo.net"/>
 
 <!-- Enable @Autowired -->
 <context:annotation-config />
