@@ -40,7 +40,7 @@ public class MailServiceImpl implements MailService{
 	
 	@Override
 	public String getFirstMail() {
-		new MailServiceImpl("http://localhost:8080");
+		//new MailServiceImpl("http://localhost:8080");
 		String value = null;
 		try {
 			value = mr.writeJsonToString(mr.getFirstMail());
