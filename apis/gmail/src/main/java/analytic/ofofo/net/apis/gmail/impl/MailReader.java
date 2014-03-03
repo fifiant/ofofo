@@ -107,8 +107,8 @@ public class MailReader implements IGmail{
 	}
 	
 	public MailReader(){
-		this.login = "login";
-		this.passwd = "****";
+		this.login = "login"; //mail login
+		this.passwd = "*****"; // mail password
 		this.provider = "gmail";
 	}
 	public String loadMailSetting(){
@@ -128,6 +128,9 @@ public class MailReader implements IGmail{
 	}
 	
 	public  int getMessagesCount(){
+		if(allMsgCache == null ){
+			collectEmail();
+		}
 		return this.getMessages().length;
 	}
 	
@@ -204,6 +207,7 @@ public class MailReader implements IGmail{
 		
 		Message messages[] = null;
 		try {
+			if(allMsgCache == null || allMsgCache.length==0){
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
 			store.connect(this.loadMailSetting(), this.getLogin(), this.getPasswd());
@@ -216,6 +220,11 @@ public class MailReader implements IGmail{
 			LOG.info("Total messages load from " + this.getProvider() + "are " + messages.length);
 			this.setMessages(messages); //set Message
 			
+			}else{ // if cache is not null use it
+				
+				messages = allMsgCache;
+				LOG.info("Load messages from mail cache");
+			}
 		} catch (NoSuchProviderException e) {
 			LOG.error(e.getMessage());
 			//System.exit(1);
@@ -232,14 +241,26 @@ public class MailReader implements IGmail{
 	 * @param number
 	 * @return
 	 */
-	private Message [] messagesToLoad(int number){
+	private Message [] topMessagesToLoad(int number){
 		Message [] messages = null;
 		if(allMsgCache == null || allMsgCache.length==0){
 			messages = Arrays.copyOf(collectEmail(), number);
-			LOG.debug("Cache is empty \n\n\n\n\n\n\n\n\n");
+			LOG.debug("Mail cache is empty \n\n\n");
 		}else {
-			messages = Arrays.copyOf(allMsgCache, number);
-			LOG.debug("Cache is not empty \n\n\n\n\n\n\n\n\n");
+			LOG.debug("Mail cache is not empty \n\n\n");
+			messages = number==this.getMessagesCount() ? allMsgCache : Arrays.copyOf(allMsgCache, number);
+		}
+		return messages;
+	}
+	
+	private Message [] bottomMessagesToLoad(int number){
+		Message [] messages = null;
+		if(allMsgCache == null || allMsgCache.length==0){
+			messages =  number >= this.getMessagesCount() ? Arrays.copyOfRange(collectEmail(), allMsgCache.length - 2, allMsgCache.length -1) : Arrays.copyOfRange(collectEmail(), allMsgCache.length - number, allMsgCache.length -1);
+			LOG.debug("Mail cache is empty \n\n\n");
+		}else {
+			LOG.debug("Mail cache is not empty \n\n\n");
+			messages = number >= this.getMessagesCount() ? Arrays.copyOfRange(collectEmail(), allMsgCache.length - 2, allMsgCache.length -1) : Arrays.copyOfRange(allMsgCache, allMsgCache.length - number, allMsgCache.length -1);
 		}
 		return messages;
 	}
@@ -259,7 +280,7 @@ public class MailReader implements IGmail{
 		List<Email> allMails = new ArrayList<Email>();
 //		Message [] messages =  new Message[1];
 //		messages[0] = getMessages(399);
-		Message messages[] = messagesToLoad(100);
+		Message messages[] = topMessagesToLoad(100);
 		allMails = messagesMapper(messages);
 		//Email json file 
 		File mf = new File("mail.json"); 
@@ -272,11 +293,28 @@ public class MailReader implements IGmail{
 	}
 	
 	public List<Email> getFirstMail() throws MessagingException{
-		Message messages[] = messagesToLoad(1);
+		Message messages[] = new Message [1]; // we need just one element
+		messages[0] = this.getMessages(0); // first message
 		return messagesMapper(messages);
 	}
 
-
+	public List<Email> getLastMail() throws MessagingException{
+		Message messages[] = new Message [1]; // we need just one element
+		messages[0] = this.getMessages(this.getMessagesCount() - 1);
+		return messagesMapper(messages);
+	}
+	
+	public List<Email> getBottomMail(int msgId) throws MessagingException{
+		Message messages[] ;
+		messages = this.bottomMessagesToLoad(msgId);
+		return messagesMapper(messages);
+	}
+	
+	public List<Email> getTopMail(int msgId) throws MessagingException{
+		Message messages[] ;
+		messages = this.topMessagesToLoad(msgId);
+		return messagesMapper(messages);
+	}
 	private List<Email> messagesMapper(Message[] messages) throws MessagingException {
 		List<Email> allMails = new ArrayList<Email>();
 		
@@ -647,10 +685,31 @@ public class MailReader implements IGmail{
 		e.flush();
 		fos.flush();
 		byte[] latin1 = fos.toString().getBytes(ENCODING);
-		//return fos.toString();
 		return new String(latin1);
 	}
 	
+//	public List<String> writeJsonToList(List<Email> mail) throws IOException {
+//		GenericDatumWriter writer = new GenericDatumWriter(Mail.SCHEMA);
+//		OutputStream fos = new OutputStream() {
+//			private StringBuilder string = new StringBuilder();
+//			@Override
+//			public void write(int b) throws IOException {
+//				this.string.append((char) b );
+//			}
+//	        public String toString(){
+//	            return this.string.toString();
+//	        }
+//		};
+//		Encoder e = EncoderFactory.get().jsonEncoder(Mail.SCHEMA,fos);
+//
+//		for (Email m : mail) {
+//			writer.write(m, e);
+//		}
+//		e.flush();
+//		fos.flush();
+//		byte[] latin1 = fos.toString().getBytes(ENCODING);
+//		return new String(latin1);
+//	}
 	/*
 	public static void main(String args[]) {
 		MailReader mail = new MailReader("identifier", "pass", "provider_name");
