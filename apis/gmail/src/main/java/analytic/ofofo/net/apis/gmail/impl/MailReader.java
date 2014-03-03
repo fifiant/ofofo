@@ -107,8 +107,8 @@ public class MailReader implements IGmail{
 	}
 	
 	public MailReader(){
-		this.login = "fifiant";
-		this.passwd = "R2507zopipo";
+		this.login = "login";
+		this.passwd = "****";
 		this.provider = "gmail";
 	}
 	public String loadMailSetting(){
