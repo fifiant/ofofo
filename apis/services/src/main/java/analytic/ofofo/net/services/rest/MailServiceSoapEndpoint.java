@@ -1,5 +1,7 @@
 package analytic.ofofo.net.services.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,13 @@ public class MailServiceSoapEndpoint implements MailService{
 	}
 
 	@Override
-	public String getBottomMail(int msgId) {
+	public String  getBottomMail(int msgId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getTopMail(int msgId) {
+	public String  getTopMail(int msgId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

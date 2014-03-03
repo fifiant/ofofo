@@ -1,5 +1,7 @@
 package analytic.ofofo.net.services.rest;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
@@ -29,6 +31,7 @@ public interface MailService {
 	@WebMethod
 	@GET
 	@Path("/last")
+	@Produces("application/json")
 	@Descriptions({
 		@Description(value = "returns the last e-mail messages", target = DocTarget.METHOD),
 		@Description(value = "the last message data", target = DocTarget.RETURN)
@@ -38,6 +41,7 @@ public interface MailService {
 	@WebMethod
 	@GET
 	@Path("/bottom/{msgId}")
+	@Produces("application/json")
 	@Descriptions({
 		@Description(value = "returns the bottom e-mail messages", target = DocTarget.METHOD),
 		@Description(value = "the bottom message data", target = DocTarget.RETURN)
@@ -48,6 +52,7 @@ public interface MailService {
 	@WebMethod
 	@GET
 	@Path("/top/{msgId}")
+	@Produces("application/json")
 	@Descriptions({
 		@Description(value = "returns the top e-mail messages", target = DocTarget.METHOD),
 		@Description(value = "the top message data", target = DocTarget.RETURN)
@@ -58,6 +63,7 @@ public interface MailService {
 	@WebMethod
 	@GET
 	@Path("/size")
+	@Produces("application/json")
 	@Descriptions({
 		@Description(value = "returns the size of e-mail messages", target = DocTarget.METHOD),
 		@Description(value = "the size of message", target = DocTarget.RETURN)
