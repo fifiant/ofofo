@@ -2,10 +2,12 @@ package analytic.ofofo.net.apis.gmail.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -787,7 +789,8 @@ public class MailReader implements IGmail{
 	public void load() throws FileNotFoundException, IOException {
 		if (this.getAllMsg().isEmpty()) {
 			LOG.debug("The cache is empty ");
-			BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/mail.json"));
+			//BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/mail.json"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/mail.json"), "UTF-8"));
 			LOG.debug("Initialize the cache...");
 			for (String line = reader.readLine(); line != null; line = reader
 					.readLine()) {
@@ -810,6 +813,7 @@ public class MailReader implements IGmail{
 	}
 	
 	public String [] tail(int maxLines) throws FileNotFoundException, IOException {
+		if((maxLines > this.getAllMsg().size()) || maxLines < 0) throw new IllegalArgumentException(" Illegal argument");
 		String[] lines = new String[maxLines];
 		int a = this.getAllMsg().size() - maxLines;
 		for (int i = this.getAllMsg().size() -1; i >= a; i--) {
