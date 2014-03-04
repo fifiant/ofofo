@@ -835,6 +835,7 @@ public class MailReader implements IGmail{
 		StringBuffer result = new StringBuffer();
 		for (int i = 0; i < arr.length; i++) {
 		   result.append( arr[i] );
+		   result.append("\n");
 		}
 		return result.toString();
 	}
