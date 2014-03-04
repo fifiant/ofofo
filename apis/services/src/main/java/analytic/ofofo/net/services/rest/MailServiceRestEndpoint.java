@@ -1,9 +1,6 @@
 package analytic.ofofo.net.services.rest;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.mail.MessagingException;
 
 import analytic.ofofo.net.apis.gmail.impl.MailReader;
 
@@ -11,20 +8,16 @@ public class MailServiceRestEndpoint implements MailService{
 	
 	
 	public MailReader mr = new MailReader();
-//	ClassPathXmlApplicationContext appContext = new  ClassPathXmlApplicationContext(new String[] {this.getClass().getClassLoader().getResource("emailprocess.xml").toString()});
-//	public MailReader mr = (MailReader) appContext.getBean("getFirstMail");
 	public MailServiceRestEndpoint(){
 		
 	}
 	
 	@Override
 	public String getFirstMail() {
-		//new MailServiceImpl("http://localhost:8080");
 		String value = null;
 		try {
-			value = mr.writeJsonToString(mr.getFirstMail());
-		} catch (MessagingException e) {
-			e.printStackTrace();
+			mr.load();
+			value = mr.getAllMsg().get(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,9 +28,8 @@ public class MailServiceRestEndpoint implements MailService{
 	public String getLastMail() {
 		String value = null;
 		try {
-			value = mr.writeJsonToString(mr.getLastMail());
-		} catch (MessagingException e) {
-			e.printStackTrace();
+			mr.load();
+			value = mr.getAllMsg().get(mr.getAllMsg().size()-1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,9 +40,8 @@ public class MailServiceRestEndpoint implements MailService{
 	public String getBottomMail(int msgId) {
 		String value = null;
 		try {
-			value = mr.writeJsonToString(mr.getBottomMail(msgId));
-		} catch (MessagingException e) {
-			e.printStackTrace();
+			mr.load();
+			value = mr.arrayToString(mr.top(msgId));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,9 +52,8 @@ public class MailServiceRestEndpoint implements MailService{
 	public String getTopMail(int msgId) {
 		String value = null;
 		try {
-			value = mr.writeJsonToString(mr.getTopMail(msgId));
-		} catch (MessagingException e) {
-			e.printStackTrace();
+			mr.load();
+			value = mr.arrayToString(mr.top(msgId));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,8 +62,14 @@ public class MailServiceRestEndpoint implements MailService{
 
 	@Override
 	public String getMailSize() {
-		// TODO Auto-generated method stub
-		return null;
+		String value = null;
+		try {
+			mr.load();
+			value = String.valueOf(mr.getAllMsg().size());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package analytic.ofofo.net.apis.gmail.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -27,6 +30,16 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +67,8 @@ public class MailReader implements IGmail{
 	
 	private Message [] allMsgCache = null;
 	
+	private List<String> allMsg = new ArrayList<String>();
+	
 	private	List<Email> allMail = new ArrayList<Email>();
 	
 	public List<Email> getAllMail() {
@@ -74,6 +89,15 @@ public class MailReader implements IGmail{
 
 	public void setMessages(Message[] messages) {
 		this.messages = messages;
+	}
+
+	public List<String> getAllMsg() {
+		return allMsg;
+	}
+
+
+	public void setAllMsg(List<String> allMsg) {
+		this.allMsg = allMsg;
 	}
 
 
@@ -108,7 +132,7 @@ public class MailReader implements IGmail{
 	
 	public MailReader(){
 		this.login = "login"; //mail login
-		this.passwd = "*****"; // mail password
+		this.passwd = "*******"; // mail password
 		this.provider = "gmail";
 	}
 	public String loadMailSetting(){
@@ -219,6 +243,7 @@ public class MailReader implements IGmail{
 			messages = inbox.getMessages();
 			LOG.info("Total messages load from " + this.getProvider() + "are " + messages.length);
 			this.setMessages(messages); //set Message
+			allMsgCache = messages; // set the messages inside cache
 			
 			}else{ // if cache is not null use it
 				
@@ -232,7 +257,6 @@ public class MailReader implements IGmail{
 			LOG.error(e.getMessage());
 			//System.exit(2);
 		}
-		allMsgCache = messages; // set the messages inside cache
 		LOG.debug("Cache size : " + allMsgCache.length + "\n\n\n\n\n\n\n\n");
 		return messages;
 	}
@@ -280,7 +304,8 @@ public class MailReader implements IGmail{
 		List<Email> allMails = new ArrayList<Email>();
 //		Message [] messages =  new Message[1];
 //		messages[0] = getMessages(399);
-		Message messages[] = topMessagesToLoad(100);
+		Message messages[] = topMessagesToLoad(500);
+		//Message messages[] = collectEmail(); //All email
 		allMails = messagesMapper(messages);
 		//Email json file 
 		File mf = new File("mail.json"); 
@@ -688,6 +713,55 @@ public class MailReader implements IGmail{
 		return new String(latin1);
 	}
 	
+	public void loader() throws FileNotFoundException, IOException, ParseException{
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(new FileReader("src/main/resources/mail.json"));
+		
+		JSONArray jsonarray = (JSONArray)obj;
+		for (int i=0; i<jsonarray.size(); i++) {
+			JSONObject jsonObject= (JSONObject)jsonarray.get(i); //message_id
+			String name = (String) jsonObject.get("message_id");
+			System.out.println(name);
+		}
+	}
+	
+	public void loadern() throws JsonParseException, JsonMappingException, IOException{
+		/*
+		 ObjectMapper mapper = new ObjectMapper();
+		ObjectReader reader = mapper.reader(Map.class); // or JsonNode.class
+		MappingIterator<Map> it = reader.readValues(new File("stuff.json"));
+		while (it.hasNextValue()) {
+		   Map m = it.nextValue();
+		   // do something; like determine real type to use and:
+		   OtherType value = mapper.convertValue(OtherType.class);
+		}
+		 */
+		JsonFactory f = new JsonFactory();
+		ObjectMapper mapper = new ObjectMapper();
+		/*** read from file ***/
+		JsonParser jp = f.createJsonParser(new File("src/main/resources/mail.json"));
+		jp.nextToken();
+		LOG.debug("Strating reading ...");
+		 while (jp.nextToken() != JsonToken.END_OBJECT) {
+			 LOG.debug(jp.getText());
+
+			  // messages is array, loop until token equal to "]"
+			  while (jp.nextToken() != JsonToken.END_ARRAY) {
+	 
+	                     // display msg1, msg2, msg3
+				  LOG.debug(jp.getText()); 
+	 
+			  }
+	 
+			 //JsonNode node = jp.readValueAsTree();
+			 //Email email = mapper.readValue(jp, Email.class);
+			        // process
+			        // after binding, stream points to closing END_OBJECT
+			 //System.out.println(email.getFrom().toString());
+			 //LOG.debug(email.getFrom().toString());
+			     }
+		 jp.close();
+	}
 //	public List<String> writeJsonToList(List<Email> mail) throws IOException {
 //		GenericDatumWriter writer = new GenericDatumWriter(Mail.SCHEMA);
 //		OutputStream fos = new OutputStream() {
@@ -710,16 +784,78 @@ public class MailReader implements IGmail{
 //		byte[] latin1 = fos.toString().getBytes(ENCODING);
 //		return new String(latin1);
 //	}
+	public void load() throws FileNotFoundException, IOException {
+		if (this.getAllMsg().isEmpty()) {
+			LOG.debug("The cache is empty ");
+			BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/mail.json"));
+			LOG.debug("Initialize the cache...");
+			for (String line = reader.readLine(); line != null; line = reader
+					.readLine()) {
+				allMsg.add(line);
+			}
+			LOG.debug("The file is loaded...");
+		}
+		LOG.debug("The cache is not empty");
+	}
+	public String [] top(int maxLines) throws FileNotFoundException, IOException {
+		String[] lines = new String[maxLines];
+		int lastNdx = 0;
+		for (String line : this.getAllMsg()) {
+			if (lastNdx == lines.length) {
+				lastNdx = 0;
+			}
+			lines[lastNdx++] = line;
+		}
+		return lines;
+	}
+	
+	public String [] tail(int maxLines) throws FileNotFoundException, IOException {
+		String[] lines = new String[maxLines];
+		int a = this.getAllMsg().size() - maxLines;
+		for (int i = this.getAllMsg().size() -1; i >= a; i--) {
+			LOG.debug("Value : " + i);
+			lines[--maxLines] = this.getAllMsg().get(i);
+		}
+		return lines;
+	}
+	public String [] top(File src, int maxLines) throws FileNotFoundException, IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(src));
+		String[] lines = new String[maxLines];
+		int lastNdx = 0;
+		for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+			if (lastNdx == lines.length) {
+				lastNdx = 0;
+			}
+			lines[lastNdx++] = line;
+		}
+		return lines;
+	}
+	
+	public String arrayToString(String ...arr){
+		StringBuffer result = new StringBuffer();
+		for (int i = 0; i < arr.length; i++) {
+		   result.append( arr[i] );
+		}
+		return result.toString();
+	}
 	/*
 	public static void main(String args[]) {
-		MailReader mail = new MailReader("identifier", "pass", "provider_name");
+		//MailReader mail = new MailReader("login", "pass", "");
+		MailReader mail = new MailReader();
 		try {
-			mail.emailSerial();
-		} catch (MessagingException e) {
+			//mail.loadern();
+			mail.load();
+			System.out.println(mail.tail(10));
+			//System.out.println(mail.getAllMsg().get(mail.getAllMsg().size()-1));
+			//System.out.println(mail.tail(2).length);
+			//System.out.println(mail.getAllMsg().size());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 
 	}
-	*/
 	
+	*/
 }
