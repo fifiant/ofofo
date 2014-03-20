@@ -27,7 +27,7 @@ To use this API just add the following informations
         </repository> 
         
         <dependency>
-			<groupIdanalytic.ofofo.net</groupId>
+			<groupId>analytic.ofofo.net</groupId>
 			<artifactId>gmail</artifactId>
 			<version>0.0.1</version>
 		</dependency>
