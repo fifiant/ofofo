@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,10 +29,13 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.apache.avro.file.DataFileReader;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericDatumWriter;
+import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
+import org.apache.avro.specific.SpecificDatumReader;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
@@ -306,7 +310,7 @@ public class MailReader implements IGmail{
 		List<Email> allMails = new ArrayList<Email>();
 //		Message [] messages =  new Message[1];
 //		messages[0] = getMessages(399);
-		Message messages[] = topMessagesToLoad(500);
+		Message messages[] = topMessagesToLoad(100);
 		//Message messages[] = collectEmail(); //All email
 		allMails = messagesMapper(messages);
 		//Email json file 
@@ -800,6 +804,44 @@ public class MailReader implements IGmail{
 		}
 		LOG.debug("The cache is not empty");
 	}
+	
+	public List<Mail> emailDeserialize(String mailPath){
+		List<Mail> mailRecords = new ArrayList<Mail>();
+		final File outputFile = new File(mailPath);
+		DatumReader<Mail> datumReader = new SpecificDatumReader<Mail>(Mail.class);
+		
+		try {
+			DataFileReader<Mail> fileReader = new DataFileReader<Mail>(outputFile, datumReader);
+			Mail m = null;
+			
+			while (fileReader.hasNext()) {
+				mailRecords.add(fileReader.next(m));
+			}
+			
+		} catch (IOException e) {
+			LOG.error("Error while trying to read the object from file <"+ outputFile.getAbsolutePath() + ">.", e);
+		}
+		return mailRecords;
+	}
+	
+	public List<Mail> emailDeserialize(URI uri){
+		List<Mail> mailRecords = new ArrayList<Mail>();
+		final File outputFile = new File(uri);
+		DatumReader<Mail> datumReader = new SpecificDatumReader<Mail>(Mail.class);
+		
+		try {
+			DataFileReader<Mail> fileReader = new DataFileReader<Mail>(outputFile, datumReader);
+			Mail m = null;
+			
+			while (fileReader.hasNext()) {
+				mailRecords.add(fileReader.next(m));
+			}
+			
+		} catch (IOException e) {
+			LOG.error("Error while trying to read the object from file <"+ outputFile.getAbsolutePath() + ">.", e);
+		}
+		return mailRecords;
+	}
 	public String [] top(int maxLines) throws FileNotFoundException, IOException {
 		String[] lines = new String[maxLines];
 		int lastNdx = 0;
@@ -843,24 +885,30 @@ public class MailReader implements IGmail{
 		}
 		return result.toString();
 	}
-	/*
+	
 	public static void main(String args[]) {
-		//MailReader mail = new MailReader("login", "pass", "");
-		MailReader mail = new MailReader();
+		/*
+		MailReader mail = new MailReader("login", "pass", "");
+		//MailReader mail = new MailReader();
 		try {
 			//mail.loadern();
-			mail.load();
-			System.out.println(mail.tail(10));
+			mail.emailSerial();
+			mail.emailDeserialize("mail.json");
+			//mail.load();
+			//System.out.println(mail.tail(10));
 			//System.out.println(mail.getAllMsg().get(mail.getAllMsg().size()-1));
 			//System.out.println(mail.tail(2).length);
 			//System.out.println(mail.getAllMsg().size());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-
+	*/
 	}
 	
-	*/
+	
 }
